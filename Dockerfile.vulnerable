@@ -1,0 +1,92 @@
+# Vulnerable Dockerfile for testing container security scanners
+# WARNING: This container intentionally contains vulnerabilities for testing purposes.
+# DO NOT use this in production environments.
+
+# Use an older Ubuntu base image with known vulnerabilities
+FROM ubuntu:18.04
+
+# Avoid prompts during package installation
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Update and install vulnerable packages
+RUN apt-get update && apt-get install -y \
+    # Older version of OpenSSL with vulnerabilities
+    openssl=1.1.0* \
+    # Older version of curl with vulnerabilities
+    curl=7.58.0* \
+    # Older version of Python
+    python=2.7* \
+    # Older version of bash (shellshock vulnerability)
+    bash=4.4* \
+    # Older version of sudo (with vulnerabilities)
+    sudo=1.8.21* \
+    # Add some web components with vulnerabilities
+    apache2=2.4.29* \
+    # Add some utilities
+    vim \
+    wget \
+    # Clean up to reduce image size
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install vulnerable Python packages
+RUN wget https://bootstrap.pypa.io/pip/2.7/get-pip.py && \
+    python get-pip.py && \
+    pip install \
+    # Vulnerable version of Django
+    django==1.11.0 \
+    # Vulnerable version of Flask
+    flask==0.12.0 \
+    # Vulnerable version of Jinja2
+    jinja2==2.9.0 \
+    # Vulnerable version of Werkzeug
+    werkzeug==0.14.0 \
+    # Vulnerable version of requests
+    requests==2.18.0 \
+    # Clean up
+    && rm get-pip.py
+
+# Create a simple web application
+RUN mkdir -p /app
+WORKDIR /app
+
+# Create a simple vulnerable Flask application
+COPY <<EOF /app/app.py
+from flask import Flask, request
+import os
+import subprocess
+
+app = Flask(__name__)
+
+@app.route('/')
+def home():
+    return "Vulnerable Container Test App"
+
+@app.route('/execute')
+def execute():
+    # Vulnerable command injection
+    cmd = request.args.get('cmd', 'echo "No command specified"')
+    return subprocess.check_output(cmd, shell=True)
+
+@app.route('/read')
+def read_file():
+    # Vulnerable path traversal
+    filename = request.args.get('filename', 'example.txt')
+    with open(filename, 'r') as f:
+        return f.read()
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=5000)
+EOF
+
+# Create an example file
+RUN echo "This is an example file." > /app/example.txt
+
+# Configure Apache to run in the foreground
+RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf
+
+# Expose web ports
+EXPOSE 80 5000
+
+# Start services (Apache and the Flask app)
+CMD service apache2 start && python /app/app.py
