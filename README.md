@@ -20,4 +20,6 @@ We do this by first generating a .tar archive of the target image with `docker s
 
 - This project utilized LLMs for code generation, specifically Anthropic's Claude 3.7 Sonnet model. 
 
-- To verify that the layer scanning works properly, I compared the outputs of running the tool on both `ubuntu:latest` and the ubuntu image defined in `Dockerfile.ubuntu_tree`, which simply installs one more package in the image. I additionally ran it on `mongo:latest`, `redis:latest`, `nginx:latest`, `alpine:latest`, and `centos/postgresql-10-centos7:latest`, and it succesfully identified installed packages in all cases. 
+- To verify that the layer scanning works properly, I compared the outputs of running the tool on both `ubuntu:latest` and the ubuntu image defined in `Dockerfile.ubuntu_tree`, which simply installs one more package in the image. I additionally ran it on `mongo:latest`, `redis:latest`, `nginx:latest`, `alpine:latest`, and `centos/postgresql-10-centos7:latest`, and it succesfully identified installed packages in all cases.
+
+![image](https://github.com/user-attachments/assets/2cd4ccda-4217-4cf9-a663-887cda8290df)
