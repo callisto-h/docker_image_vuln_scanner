@@ -14,9 +14,9 @@ We do this by first generating a .tar archive of the target image with `docker s
 
 - Lastly, we produce a well-formatted JSON of the packages found within the docker image. The list produced by our tool may not be exhaustive, but could still identify odd package installations as a precaution. 
 
-- We plan to then cross reference the package list with vulnerability databases like (`)https://nvd.nist.gov/) and produce a summary of possible security issues.
+- We plan to then cross reference the package list with vulnerability databases like https://nvd.nist.gov/ and produce a summary of possible security issues.
 
-- This project was heavily inspired by the EMBA project found at (https://github.com/e-m-b-a/emba), though ours is obviously nowhere near as feature rich. 
+- This project was heavily inspired by the EMBA project found at https://github.com/e-m-b-a/emba, though ours is obviously nowhere near as feature rich. 
 
 - This project utilized LLMs for code generation, specifically Anthropic's Claude 3.7 Sonnet model. 
 
