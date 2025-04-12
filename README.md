@@ -1,6 +1,6 @@
 # DISVA - Docker Image Static Vulnerability Analyzer
 
-## disvā (Pali) - abs. having seen; having understood; having found out [√dis + tvā]
+## disvā (Pali) - abs. *having seen; having understood; having found out* [√dis + tvā]
 
 
 Hi, welcome to our Intro to Cloud Computing course project -- **DISVA** Docker Image Static Vulnerability Analyzer (WIP!). 
