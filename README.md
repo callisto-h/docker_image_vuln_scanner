@@ -23,3 +23,50 @@ We do this by first generating a .tar archive of the target image with `docker s
 - To verify that the layer scanning works properly, I compared the outputs of running the tool on both `ubuntu:latest` and the ubuntu image defined in `Dockerfile.ubuntu_tree`, which simply installs one more package in the image. I additionally ran it on `mongo:latest`, `redis:latest`, `nginx:latest`, `alpine:latest`, and `centos/postgresql-10-centos7:latest`, and it succesfully identified installed packages in all cases.
 
 ![image](https://github.com/user-attachments/assets/2cd4ccda-4217-4cf9-a663-887cda8290df)
+
+## Setup:##
+.  **Clone the repository (or download and extract the ZIP):**
+    ```bash
+    git clone <your-repo-url>
+    cd DISVA-Docker_Image_Static_Vulnerability_Scanner
+    ```
+
+2.  **Create a virtual environment (recommended):**
+    ```bash
+    python3 -m venv venv
+    source venv/bin/activate  # On Windows: venv\Scripts\activate
+    ```
+
+3.  **Install dependencies:**
+    ```bash
+    pip install -r requirements.txt
+    ```
+
+4.  **Configure your NVD API Key:**
+    *   Copy the example environment file:
+        ```bash
+        cp .env.example .env
+        ```
+    *   Edit the `.env` file and add your NVD API key:
+        ```
+        NVD_API_KEY="YOUR_ACTUAL_NVD_API_KEY_HERE"
+        ```
+
+## Usage
+
+First, create an archive file from the target docker image:
+
+```bash
+docker save <image> > <archive>
+```
+
+Run the scanner script from the project root directory:
+
+```bash
+python3 vulnerability_scan.py <path_to_docker_image.tar> [packages_output.json] [vulnerabilities_output.json] [OPTIONS]
+```
+Or, to only produce a list of packages in a docker image:
+
+```bash
+python3 image_scanner.py <path_to_docker_image.tar>
+```
