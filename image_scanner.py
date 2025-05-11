@@ -243,7 +243,7 @@ def detect_os_in_memory(file_contents):
     
     return os_info
 
-def analyze_docker_image_optimized(image_path):
+def analyze_docker_image_optimized(image_path, out_file = ""):
     """Analyze a Docker image efficiently using in-memory processing"""
     # Track cumulative package state
     all_packages = {}
@@ -314,7 +314,13 @@ def analyze_docker_image_optimized(image_path):
         "package_count": len(packages_list)
     }
     
-    print(json.dumps(result, indent=2))
+    
+    if out_file != "":
+        with open(out_file, 'w') as f:
+            json.dump(result, f, indent=2)
+            #os.execvp("echo", ["echo", f"Output written to {out_file}"])
+    else:
+        print(json.dumps(result, indent=2))
     return result
 
 if __name__ == "__main__":
@@ -326,7 +332,9 @@ if __name__ == "__main__":
         print(f"Provided file: {sys.argv[0]} doesn't exist")
         sys.exit(1)
     
-    result = analyze_docker_image_optimized(sys.argv[1])
+    result = analyze_docker_image_optimized(sys.argv[1]) if len(sys.argv)<3 else analyze_docker_image_optimized(sys.argv[1], sys.argv[2])
+    
+    
     # Output is already handled in the function with json.dumps
 
     # result = analyze_docker_image_optimized("centos_postgres.tar") # hardcoded for testing
