@@ -24,7 +24,7 @@ We do this by first generating a .tar archive of the target image with `docker s
 
 ![image](https://github.com/user-attachments/assets/2cd4ccda-4217-4cf9-a663-887cda8290df)
 
-## Setup:##
+## Setup:
 .  **Clone the repository (or download and extract the ZIP):**
     ```bash
     git clone <your-repo-url>
