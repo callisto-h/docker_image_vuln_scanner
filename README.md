@@ -22,7 +22,11 @@ We do this by first generating a .tar archive of the target image with `docker s
 
 - To verify that the layer scanning works properly, I compared the outputs of running the tool on both `ubuntu:latest` and the ubuntu image defined in `Dockerfile.ubuntu_tree`, which simply installs one more package in the image. I additionally ran it on `mongo:latest`, `redis:latest`, `nginx:latest`, `alpine:latest`, and `centos/postgresql-10-centos7:latest`, and it succesfully identified installed packages in all cases.
 
+Package list output:
 ![image](https://github.com/user-attachments/assets/2cd4ccda-4217-4cf9-a663-887cda8290df)
+
+Vulnerabilities list output:
+![image](https://github.com/user-attachments/assets/4532d58d-bff5-4e94-9c8a-dd7f18d353a1)
 
 ## Setup:
 .  **Clone the repository (or download and extract the ZIP):**
